@@ -44,20 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
     /** Booleans */
 
-    private static boolean
-
-    // Whether there is a Wi-Fi connection.
-
-    wifiConnected = false,
-
-    // Whether there is a mobile connection.
-
-    mobileConnected = false,
-
-    // Whether the display should be refreshed.
-
-    refreshDisplay = true;
-
     public static final boolean
 
     PREFERENCE_VALUE_INCLUDE_SUMMARY_TEXT_YES = true,
@@ -82,6 +68,22 @@ public class MainActivity extends AppCompatActivity {
     public static String sPref = null;
 
     /** VARIABLES */
+
+    /** Booleans */
+
+    private boolean
+
+    // Whether there is a Wi-Fi connection.
+
+    wifiConnected = false,
+
+    // Whether there is a mobile connection.
+
+    mobileConnected = false,
+
+    // Whether the display should be refreshed.
+
+    refreshDisplay = true;
 
     /** Network Receivers */
 
@@ -129,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         // you don't want to refresh the display--this would force the display of
         // an error page instead of stackoverflow.com content.
 
-        if ( refreshDisplay == true ) { loadPage(); }
+        if ( isRefreshDisplay() == true ) { loadPage(); }
 
     } // end onStart
 
@@ -209,16 +211,16 @@ public class MainActivity extends AppCompatActivity {
         // begin if for if there is a connection
         if ( activeInfo != null && activeInfo.isConnected() ) {
 
-            wifiConnected = activeInfo.getType() == ConnectivityManager.TYPE_WIFI;
-            mobileConnected = activeInfo.getType() == ConnectivityManager.TYPE_MOBILE;
+            setWifiConnected( activeInfo.getType() == ConnectivityManager.TYPE_WIFI );
+            setMobileConnected( mobileConnected = activeInfo.getType() == ConnectivityManager.TYPE_MOBILE );
 
         } // end if for if there is a connection
 
         // begin else for when there is no connection
         else {
 
-            wifiConnected = false;
-            mobileConnected = false;
+            setWifiConnected( false );
+            setMobileConnected( false );
 
         } // end else for when there is no connection
 
@@ -235,12 +237,12 @@ public class MainActivity extends AppCompatActivity {
         // or if the user decides to use wifi and wifi is available
         if ( ( ( sPref.equals( PREFERENCE_VALUE_NETWORK_ANY ) )
                 &&
-                ( wifiConnected
+                ( isWifiConnected() == true
                   ||
-                  mobileConnected ) )
+                  isMobileConnected() == true ) )
              ||
              ( ( sPref.equals( PREFERENCE_VALUE_NETWORK_WIFI ) )
-                && ( wifiConnected ) )
+                && ( isWifiConnected() == true ) )
             )  {
 
             // AsyncTask subclass to download the feeds
@@ -332,7 +334,7 @@ public class MainActivity extends AppCompatActivity {
 //        // Each entry is displayed in the UI as a link that optionally includes
 //        // a text summary.
 //        for (Entry entry : entries) {
-//            htmlString.append("<p><a href='");
+//            htmlString.append("<p><a hr ef='");
 //            htmlString.append(entry.link);
 //            htmlString.append("'>" + entry.title + "</a></p>");
 //            // If the user set the preference to include summary text,
@@ -360,5 +362,23 @@ public class MainActivity extends AppCompatActivity {
 //    }
 
 
+    // getter for the wifiConnected
+    public boolean isWifiConnected() { return wifiConnected; }
 
+    // setter for the wifiConnected
+    public void setWifiConnected( boolean wifiConnected ) { this.wifiConnected = wifiConnected; }
+
+    // getter for the mobileConnected
+    public boolean isMobileConnected() { return mobileConnected; }
+
+    // setter for the mobileConnected
+    public void setMobileConnected( boolean mobileConnected ) { this.mobileConnected = mobileConnected; }
+
+    // getter for the refreshDisplay
+    public boolean isRefreshDisplay() { return refreshDisplay; }
+
+    // setter for the refreshDisplay
+    public void setRefreshDisplay( boolean refreshDisplay ) {
+        this.refreshDisplay = refreshDisplay;
+    }
 } // end class MainActivity
