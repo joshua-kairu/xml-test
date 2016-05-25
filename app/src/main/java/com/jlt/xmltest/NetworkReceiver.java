@@ -63,7 +63,7 @@ public class NetworkReceiver extends BroadcastReceiver {
         // If the userpref is Wi-Fi only, checks to see if the device has a Wi-Fi connection.
 
         // begin if for if the set preference is WiFi and if the network information has something as if the network information is WiFi
-        if ( MainActivity.WIFI.equals( MainActivity.sPref ) &&
+        if ( MainActivity.PREFERENCE_VALUE_NETWORK_WIFI.equals( MainActivity.sPref ) &&
              networkInfo != null &&
              networkInfo.getType() == ConnectivityManager.TYPE_WIFI ) {
 
@@ -83,7 +83,7 @@ public class NetworkReceiver extends BroadcastReceiver {
         // (which by process of elimination would be mobile), sets refreshDisplay to true.
 
         // begin else if for if the setting is ANY network and there is a network connection
-        else if ( MainActivity.ANY.equals( MainActivity.sPref ) &&
+        else if ( MainActivity.PREFERENCE_VALUE_NETWORK_ANY.equals( MainActivity.sPref ) &&
                   networkInfo != null ) {
 
             MainActivity.refreshDisplay = true;

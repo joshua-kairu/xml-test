@@ -6,11 +6,14 @@ package com.jlt.xmltest;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.webkit.WebView;
 
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -64,11 +67,47 @@ public class DownloadXMLAsyncTask extends AsyncTask< String, Void, String > {
     /** Overrides */
     @Override
     // begin doInBackground
-    protected String doInBackground( String... params ) {
+    protected String doInBackground( String... urls ) {
 
-        return null;
+        // 0. return the loaded XML
+
+        // 0. return the loaded XML
+
+        // try return loaded XML
+
+        try { return loadXMLFromNet( urls[ 0 ] ); }
+
+        // catch IO issues
+
+        catch ( IOException e ) { return mainActivity.getResources().getString( R.string.connection_error ); }
+
+        // catch XML parsing issues
+
+        catch ( XmlPullParserException e ) { return mainActivity.getResources().getString( R.string.xml_error ); }
 
     } // end doInBackground
+
+    @Override
+    // begin onPostExecute
+    protected void onPostExecute( String result ) {
+
+        // 0. put the main layout on the main activity
+        // 1. get the web view from main layout
+        // 2. put the result in the web view in HTML form
+
+        // 0. put the main layout on the main activity
+
+        mainActivity.setContentView( R.layout.activity_main );
+
+        // 1. get the web view from main layout
+
+        WebView webView = ( WebView ) mainActivity.findViewById( R.id.m_wv_feeds );
+
+        // 2. put the result in the web view in HTML form
+
+        webView.loadData( result, "text/html", null );
+
+    } // end onPostExecute
 
     /** Other Methods */
 
@@ -135,8 +174,7 @@ public class DownloadXMLAsyncTask extends AsyncTask< String, Void, String > {
         // 4. check to see if user set preference to include summary text
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences( mainActivity );
-        boolean shouldIncludeSummaryText = sharedPreferences.getBoolean( MainActivity.PREFERENCE_INCLUDE_SUMMARY_TEXT, false );
-
+        boolean shouldIncludeSummaryText = sharedPreferences.getBoolean( MainActivity.PREFERENCE_NAME_INCLUDE_SUMMARY_TEXT, MainActivity.PREFERENCE_VALUE_INCLUDE_SUMMARY_TEXT_NO );
 
         // 5. build the return HTML to show the page title and the last updated time
 
@@ -193,5 +231,55 @@ public class DownloadXMLAsyncTask extends AsyncTask< String, Void, String > {
         return returnHTMLString.toString();
 
     } // end method loadXMLFromNet
+
+    // begin method downloadURL
+    // given a URL, sets up a connection and gets an input stream from that connection
+    private InputStream downloadURL( String urlString ) throws IOException {
+
+        // 0. create a URL from the string
+        // 1. open a HTTP connection from the URL
+        // 2. set a HTTP read timeout of 10 seconds
+        // 3. set a HTTP connect timeout of 15 seconds
+        // 4. use the GET HTTP request method
+        // 5. allow this HTTP connection to accept input
+        // 6. start the HTTP connection
+        // 7. get a stream from the connection
+        // 8. return this stream
+
+        // 0. create a URL from the string
+
+        URL url = new URL( urlString );
+
+        // 1. open a HTTP connection from the URL
+
+        HttpURLConnection httpURLConnection = ( HttpURLConnection ) url.openConnection();
+
+        // 2. set a HTTP read timeout of 10 seconds
+
+        httpURLConnection.setReadTimeout( 10 * 1000 );
+
+        // 3. set a HTTP connect timeout of 15 seconds
+
+        httpURLConnection.setConnectTimeout( 15 * 1000 );
+
+        // 4. use the GET HTTP request method
+
+        httpURLConnection.setRequestMethod( "GET" );
+
+        // 5. allow this HTTP connection to accept input
+
+        httpURLConnection.setDoInput( true );
+
+        // 6. start the HTTP connection
+
+        httpURLConnection.connect();
+
+        // 7. get a stream from the connection
+
+        // 8. return this stream
+
+        return httpURLConnection.getInputStream();
+
+    } // edn method downloadURL
 
 } // end class DownloadXMLAsyncTask
