@@ -70,7 +70,7 @@ public class NetworkReceiver extends BroadcastReceiver {
         // If the userpref is Wi-Fi only, checks to see if the device has a Wi-Fi connection.
 
         // begin if for if the set preference is WiFi and if the network information has something as if the network information is WiFi
-        if ( MainActivity.PREFERENCE_VALUE_NETWORK_WIFI.equals( MainActivity.sPref ) &&
+        if ( MainActivity.PREFERENCE_VALUE_NETWORK_WIFI.equals( MainActivity.getCurrentNetworkPreferenceSetting() ) &&
              networkInfo != null &&
              networkInfo.getType() == ConnectivityManager.TYPE_WIFI ) {
 
@@ -78,7 +78,7 @@ public class NetworkReceiver extends BroadcastReceiver {
             // to true. This causes the display to be refreshed when the user
             // returns to the app.
 
-            MainActivity.refreshDisplay = true;
+            MainActivity.setRefreshDisplay( true );
 
             // inform the user of the connected state
 
@@ -90,10 +90,10 @@ public class NetworkReceiver extends BroadcastReceiver {
         // (which by process of elimination would be mobile), sets refreshDisplay to true.
 
         // begin else if for if the setting is ANY network and there is a network connection
-        else if ( MainActivity.PREFERENCE_VALUE_NETWORK_ANY.equals( MainActivity.sPref ) &&
+        else if ( MainActivity.PREFERENCE_VALUE_NETWORK_ANY.equals( MainActivity.getCurrentNetworkPreferenceSetting() ) &&
                   networkInfo != null ) {
 
-            MainActivity.refreshDisplay = true;
+            MainActivity.setRefreshDisplay( true );
 
         } // end else if for if the setting is ANY network and there is a network connection
 
@@ -105,7 +105,7 @@ public class NetworkReceiver extends BroadcastReceiver {
         // begin else for when the app cannot download
         else {
 
-            MainActivity.refreshDisplay = false;
+            MainActivity.setRefreshDisplay( false );
 
             // inform the user of the sad state
 

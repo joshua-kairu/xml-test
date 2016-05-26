@@ -64,9 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
     URL = "http://stackoverflow.com/feeds/tag?tagnames=android&sort=newest";
 
-    // The user's current network preference setting.
-    public static String sPref = null;
-
     /** VARIABLES */
 
     /** Booleans */
@@ -79,20 +76,49 @@ public class MainActivity extends AppCompatActivity {
 
     // Whether there is a mobile connection.
 
-    mobileConnected = false,
+    mobileConnected = false;
 
     // Whether the display should be refreshed.
 
-    refreshDisplay = true;
+    private static boolean refreshDisplay = true;
 
     /** Network Receivers */
 
     // The BroadcastReceiver that tracks network connectivity changes.
     private NetworkReceiver networkReceiver = new NetworkReceiver();
 
+    /* Strings */
+
+    // The user's current network preference setting.
+    private static String currentNetworkPreferenceSetting;
+
     /** METHODS */
 
     /** Getters and Setters */
+
+    // getter for the wifiConnected
+    public boolean isWifiConnected() { return wifiConnected; }
+
+    // setter for the wifiConnected
+    public void setWifiConnected( boolean wifiConnected ) { this.wifiConnected = wifiConnected; }
+
+    // getter for the mobileConnected
+    public boolean isMobileConnected() { return mobileConnected; }
+
+    // setter for the mobileConnected
+    public void setMobileConnected( boolean mobileConnected ) { this.mobileConnected = mobileConnected; }
+
+    // getter for the refreshDisplay
+    public static boolean isRefreshDisplay() { return refreshDisplay; }
+
+    // setter for the refreshDisplay
+    public static void setRefreshDisplay( boolean refreshDisplay ) { MainActivity.refreshDisplay = refreshDisplay; }
+
+    // getter for the currentNetworkPreferenceSetting
+    public static String getCurrentNetworkPreferenceSetting() { return currentNetworkPreferenceSetting; }
+
+    // setter for the currentNetworkPreferenceSetting
+    public static void setCurrentNetworkPreferenceSetting( String currentNetworkPreferenceSetting ) { MainActivity.currentNetworkPreferenceSetting = currentNetworkPreferenceSetting; }
 
     /** Overrides */
 
@@ -121,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Retrieves a string value for the preferences. The second parameter
         // is the default value to use if a preference value is not found.
-        sPref = sharedPrefs.getString( PREFERENCE_NAME_NETWORK, PREFERENCE_VALUE_NETWORK_WIFI );
+        currentNetworkPreferenceSetting = sharedPrefs.getString( PREFERENCE_NAME_NETWORK, PREFERENCE_VALUE_NETWORK_WIFI );
 
         updateConnectedFlags();
 
@@ -235,13 +261,13 @@ public class MainActivity extends AppCompatActivity {
 
         // begin if for if the user decides to download with any connection and either wifi or mobile are available
         // or if the user decides to use wifi and wifi is available
-        if ( ( ( sPref.equals( PREFERENCE_VALUE_NETWORK_ANY ) )
+        if ( ( ( currentNetworkPreferenceSetting.equals( PREFERENCE_VALUE_NETWORK_ANY ) )
                 &&
                 ( isWifiConnected() == true
                   ||
                   isMobileConnected() == true ) )
              ||
-             ( ( sPref.equals( PREFERENCE_VALUE_NETWORK_WIFI ) )
+             ( ( currentNetworkPreferenceSetting.equals( PREFERENCE_VALUE_NETWORK_WIFI ) )
                 && ( isWifiConnected() == true ) )
             )  {
 
@@ -361,24 +387,4 @@ public class MainActivity extends AppCompatActivity {
 //        return stream;
 //    }
 
-
-    // getter for the wifiConnected
-    public boolean isWifiConnected() { return wifiConnected; }
-
-    // setter for the wifiConnected
-    public void setWifiConnected( boolean wifiConnected ) { this.wifiConnected = wifiConnected; }
-
-    // getter for the mobileConnected
-    public boolean isMobileConnected() { return mobileConnected; }
-
-    // setter for the mobileConnected
-    public void setMobileConnected( boolean mobileConnected ) { this.mobileConnected = mobileConnected; }
-
-    // getter for the refreshDisplay
-    public boolean isRefreshDisplay() { return refreshDisplay; }
-
-    // setter for the refreshDisplay
-    public void setRefreshDisplay( boolean refreshDisplay ) {
-        this.refreshDisplay = refreshDisplay;
-    }
 } // end class MainActivity
