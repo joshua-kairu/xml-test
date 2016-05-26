@@ -10,7 +10,7 @@ The app fetches recent Android-related [StackOverflow] (http://stackoverflow.com
 
 ## Version History :package:
 
-**latest** 	XML Test v1.0.0 	Thursday, May 26, 2016		[download](download link) 
+**latest** 	[XML Test v1.0.0](https://github.com/joshua-kairu/xml-test/releases/download/v1.0/XML-Test-v1.0.0.apk) 	Thursday, May 26, 2016
 
 This repo tries its best to follow the [Semantic Versioning](http://semver.org/) guidelines.
 
