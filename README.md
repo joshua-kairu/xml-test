@@ -8,6 +8,12 @@ This repo contains an implementation of a [tutorial on Android XML] (https://dev
 
 The app fetches recent Android-related [StackOverflow] (http://stackoverflow.com/) posts. One can decide to do fetching over only Wi-Fi or over any network.
 
+## Version History :package:
+
+**latest** 	XML Test v1.0.0 	Thursday, May 26, 2016		[download](download link) 
+
+This repo tries its best to follow the [Semantic Versioning](http://semver.org/) guidelines.
+
 ## How To Use :wrench:
 
 These are the steps of use:
